@@ -1,8 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>
-    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>
+        
 <!DOCTYPE html>
+<script src="js/jquery-1.11.3.min.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+</script>
+
 <!-- 登录 注册 购物车... -->
 <div class="container-fluid">
 	<div class="col-md-4">
@@ -39,15 +45,27 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">首页</a>
+				 <c:if test="${empty currectSelectCid}">
+				    <a class="navbar-brand" href="#">首页</a>
+				  </c:if>
+				   <c:if test="${!empty currectSelectCid}">
+				    <a class="navbar-brand" href="${pageContext.request.contextPath }/home">首页<span class="sr-only">(current)</span></a>
+				  </c:if>
 			</div>
 
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="product_list.htm">手机数码<span class="sr-only">(current)</span></a></li>
-					<li><a href="#">电脑办公</a></li>
-					<li><a href="#">电脑办公</a></li>
-					<li><a href="#">电脑办公</a></li>
+					<c:forEach items="${menuListDatas}" var="menuItem" varStatus="idx">
+					 
+			             <c:if test="${currectSelectCid==menuItem.cid}">
+					       <li class="active"><a href="${pageContext.request.contextPath }/productList?cid=${menuItem.cid}">${menuItem.cname}<span id="${menuItem.cid}" class="sr-only">(current)</span></a></li>
+					    </c:if> 
+					     <c:if test="${currectSelectCid!=menuItem.cid}">
+					       <li id="${menuItem.cid}"><a href="${pageContext.request.contextPath }/productList?cid=${menuItem.cid}">${menuItem.cname}</a></li>
+					     </c:if> 
+					     
+					</c:forEach>
+					
 				</ul>
 				<form class="navbar-form navbar-right" role="search">
 					<div class="form-group">
